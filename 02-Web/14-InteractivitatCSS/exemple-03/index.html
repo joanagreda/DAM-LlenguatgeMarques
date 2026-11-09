@@ -1,58 +1,49 @@
 <!DOCTYPE html>
 <html lang="ca">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="estils.css">
-  <title>Carrusel CSS Pur</title>
-</head>
-<body>
-  <div class="container">
-    <h1>Carrusel d'Imatges</h1>
-
-    <div class="carousel">
-      <!-- Radio buttons for state management -->
-      <input type="radio" name="slide" id="slide1" checked>
-      <input type="radio" name="slide" id="slide2">
-      <input type="radio" name="slide" id="slide3">
-      <input type="radio" name="slide" id="slide4">
-
-      <!-- Slides -->
-      <div class="slides">
-        <div class="slide">
-          <div>Primera Diapositiva 🎨</div>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="estils.css" />
+    <title>Targetes Polaroid amb revers sèpia</title>
+  </head>
+  <body>
+    <div class="gallery">
+      <!-- Targeta 1 -->
+      <label class="cardwrap">
+        <input type="checkbox" class="flip" />
+        <div class="card">
+          <div class="front frontCard1">
+            <div class="polaroid">
+              <div class="photo"></div>
+              <div class="caption">Anvers</div>
+            </div>
+          </div>
+          <div class="back backCard1">
+            <div class="polaroid">
+              <div class="photo"></div>
+              <div class="caption">Revers</div>
+            </div>
+          </div>
         </div>
-        <div class="slide">
-          <div>Segona Diapositiva 🚀</div>
-        </div>
-        <div class="slide">
-          <div>Tercera Diapositiva 🌟</div>
-        </div>
-        <div class="slide">
-          <div>Quarta Diapositiva ✨</div>
-        </div>
-      </div>
+      </label>
 
-      <!-- Previous arrows (one for each state) -->
-      <!-- No prev arrow per slide 1 (és la primera) -->
-      <label for="slide1" class="navArrow prev arrowPrev2">‹</label>
-      <label for="slide2" class="navArrow prev arrowPrev3">‹</label>
-      <label for="slide3" class="navArrow prev arrowPrev4">‹</label>
-
-      <!-- Next arrows (one for each state) -->
-      <label for="slide2" class="navArrow next arrowNext1">›</label>
-      <label for="slide3" class="navArrow next arrowNext2">›</label>
-      <label for="slide4" class="navArrow next arrowNext3">›</label>
-      <!-- No next arrow per slide 4 (és l'última) -->
-
-      <!-- Navigation dots -->
-      <div class="dots">
-        <label class="dot" for="slide1"></label>
-        <label class="dot" for="slide2"></label>
-        <label class="dot" for="slide3"></label>
-        <label class="dot" for="slide4"></label>
-      </div>
+      <!-- Targeta 2 -->
+      <label class="cardwrap">
+        <input type="checkbox" class="flip" />
+        <div class="card">
+          <div class="front frontCard2">
+            <div class="polaroid">
+              <div class="photo"></div>
+              <div class="caption">Anvers</div>
+            </div>
+          </div>
+          <div class="back backCard2">
+            <div class="polaroid">
+              <div class="photo"></div>
+              <div class="caption">Revers</div>
+            </div>
+          </div>
+        </div>
+      </label>
     </div>
-  </div>
-</body>
+  </body>
 </html>
