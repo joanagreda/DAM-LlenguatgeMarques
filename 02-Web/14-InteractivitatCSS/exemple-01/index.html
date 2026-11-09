@@ -34,9 +34,9 @@
       background: linear-gradient(to bottom, #ccc, #999);
     }
 
-    /* El <label> que conté el radio marcat es pinta de blau.
-       Una sola regla serveix per a tots els botons! */
-    label:has(:checked) {
+    /* El <label> que conté el radio marcat es pinta de blau */
+    label:has(#verd:checked),
+    label:has(#vermell:checked) {
       background: linear-gradient(to bottom, #3d7bff, #0053d6);
       border-color: #0044bb;
       box-shadow: 0 0 6px rgba(0, 98, 255, 0.7);

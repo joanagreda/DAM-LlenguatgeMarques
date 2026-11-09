@@ -58,13 +58,15 @@ body {
     width: var(--knob);
 }
 
-/* Estat ON: el .toggle que conté un checkbox marcat */
-.toggle:has(:checked) .indicator {
+/* Estat ON: el .toggle que conté el checkbox #wifi o #bluetooth marcat */
+.toggle:has(#wifi:checked) .indicator,
+.toggle:has(#bluetooth:checked) .indicator {
     background: linear-gradient(to bottom, #3d7bff, #0053d6);
     border-color: #0044bb;
 }
 
 /* Estat ON: el cercle es desplaça a la dreta */
-.toggle:has(:checked) .indicator::after {
+.toggle:has(#wifi:checked) .indicator::after,
+.toggle:has(#bluetooth:checked) .indicator::after {
     transform: translateX(calc(var(--w) - var(--knob) - var(--pad) * 2));
 }

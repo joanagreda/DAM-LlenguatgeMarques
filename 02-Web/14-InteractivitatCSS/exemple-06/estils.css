@@ -169,12 +169,12 @@ body {
 }
 
 /* Estat ON de l'interruptor: igual que a l'exemple dels toggles */
-.toggle:has(:checked) .indicator {
+.toggle:has(#animacio:checked) .indicator {
     background: linear-gradient(to bottom, #3d7bff, #0053d6);
     border-color: #0044bb;
 }
 
-.toggle:has(:checked) .indicator::after {
+.toggle:has(#animacio:checked) .indicator::after {
     transform: translateX(calc(var(--w) - var(--knob) - var(--pad) * 2));
 }
 

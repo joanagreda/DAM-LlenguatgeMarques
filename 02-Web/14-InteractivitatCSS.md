@@ -22,34 +22,36 @@ body {
   background-color: white;
 }
 
-body:has(input:checked) {
+body:has(#verd:checked) {
   background-color: lightgreen;
 }
 ```
 
-Com es llegeix `body:has(input:checked)`?
+Com es llegeix `body:has(#verd:checked)`?
 
-- `input:checked` → un input que està marcat
+- `#verd:checked` → l'input amb `id="verd"`, si està marcat
 - `body:has(...)` → el `<body>` **que conté** allò que hi ha dins del parèntesi
 
-És a dir: *"el body, si conté un input marcat"*. Quan desmarquem el checkbox, la regla deixa de complir-se i el fons torna a ser blanc.
+És a dir: *"el body, si conté l'input #verd marcat"*. Quan desmarquem el checkbox, la regla deixa de complir-se i el fons torna a ser blanc.
 
 Exemple-00: Obrir amb "Show preview" la pàgina "02-Web/14-InteractivitatCSS/exemple-00/index.html"
 
 ## El selector :has()
 
-`A:has(B)` selecciona l'element **A** quan **conté** un element **B**. Es fa servir de dues maneres:
+`A:has(B)` selecciona l'element **A** quan **conté** un element **B**.
+
+Als exemples, **B** sempre és `#id:checked`: *"l'input #id, si està marcat"*. Així sempre se sap quin input controla cada estil. Es fa servir de dues maneres:
 
 ```css
-/* 1. Estat global: un element de qualsevol lloc de la pàgina */
+/* 1. Des del body: canvia un element de qualsevol lloc de la pàgina */
 body:has(#verd:checked) .box { ... }
 
-/* 2. Estat local: el contenidor que té l'input a dins */
-label:has(:checked) { ... }
+/* 2. Des del contenidor: canvia l'element que té l'input a dins */
+label:has(#verd:checked) { ... }
 ```
 
 - Amb `body:has(...)` podem canviar **qualsevol element** de la pàgina, estigui on estigui l'input.
-- Amb `contenidor:has(...)` canviem **només** l'element que conté l'input (i els seus fills). Així, **una sola regla** serveix per a molts botons.
+- Amb `contenidor:has(...)` canviem **només** l'element que conté l'input (i els seus fills).
 
 ## El label
 
@@ -64,7 +66,7 @@ Un `<label>` associat a un input fa que, **en clicar el text, es marqui l'input*
 <label><input type="checkbox"> Fons verd</label>
 ```
 
-La segona manera és molt pràctica amb `:has()`, perquè el label **conté** l'input i podem fer `label:has(:checked)`.
+La segona manera és molt pràctica amb `:has()`, perquè el label **conté** l'input i podem fer `label:has(#verd:checked)`.
 
 Com que el label ja fa de botó, sovint s'amaga l'input amb `display: none;` i només es veu el label.
 
@@ -86,8 +88,9 @@ Com que el label ja fa de botó, sovint s'amaga l'input amb `display: none;` i n
 ```
 
 ```css
-/* El botó que conté el radio marcat (una regla per a tots els botons) */
-label:has(:checked) {
+/* El botó que conté el radio marcat es pinta de blau */
+label:has(#verd:checked),
+label:has(#vermell:checked) {
   background: blue;
   color: white;
 }
@@ -109,27 +112,29 @@ Un toggle és un checkbox amagat dins d'un label, amb un `<span>` que fa d'inter
 
 ```html
 <label class="toggle">
-  <input type="checkbox">
+  <input type="checkbox" id="wifi">
   <span class="indicator"></span>
   <span>Wi-Fi</span>
 </label>
 ```
 
-Per canviar l'estil quan està activat, es fa servir `.toggle:has(:checked)`:
+Per canviar l'estil quan està activat, es fa servir `.toggle:has(#wifi:checked)`:
 
 ```css
 .toggle input {
   display: none;
 }
-.toggle:has(:checked) .indicator {
+.toggle:has(#wifi:checked) .indicator,
+.toggle:has(#bluetooth:checked) .indicator {
   /* Estil quan està activat (ON) */
 }
-.toggle:has(:checked) .indicator::after {
+.toggle:has(#wifi:checked) .indicator::after,
+.toggle:has(#bluetooth:checked) .indicator::after {
   /* El cercle es desplaça a la dreta */
 }
 ```
 
-Com que cada `.toggle` només mira el seu propi checkbox, la mateixa regla serveix per a tots els toggles de la pàgina.
+Es llegeix: *"el .toggle que conté #wifi marcat"*. Com que cada checkbox és dins del seu propi `.toggle`, només canvia l'interruptor que hem clicat.
 
 <br/>
 <center>
@@ -143,7 +148,8 @@ Exemple-02: Obrir amb "Show preview" la pàgina "02-Web/14-InteractivitatCSS/exe
 És el mateix patró que el toggle: cada targeta és un `<label>` amb un checkbox amagat a dins.
 
 ```css
-.cardwrap:has(.flip:checked) .card {
+.cardwrap:has(#targeta1:checked) .card,
+.cardwrap:has(#targeta2:checked) .card {
   transform: rotateY(180deg);
 }
 ```
@@ -183,19 +189,34 @@ Exemple-04: Obrir amb "Show preview" la pàgina "02-Web/14-InteractivitatCSS/exe
 ### 2. Les fletxes també són labels
 
 ```html
+<label for="slide1" class="navArrow prev arrowPrev2">‹</label>
+<label for="slide2" class="navArrow prev arrowPrev3">‹</label>
+<label for="slide3" class="navArrow prev arrowPrev4">‹</label>
+
 <label for="slide2" class="navArrow next arrowNext1">›</label>
+<label for="slide3" class="navArrow next arrowNext2">›</label>
+<label for="slide4" class="navArrow next arrowNext3">›</label>
 ```
 
-- Les fletxes són fora dels punts, per això fan servir `for` per marcar el radio corresponent.
+- Les fletxes són fora dels punts, per això fan servir `for`: clicar `<label for="slide2">` marca el radio `#slide2`.
+- El `for` és fix i el CSS no sap calcular *"la següent"*. Per això hi ha **una fletxa per a cada salt**: `arrowNext1` és la fletxa que es veu a la diapositiva 1 i porta a la 2.
+- Totes les fletxes estan amagades i col·locades una sobre l'altra. El CSS només mostra les dues de la diapositiva actual:
+
+```css
+.carousel:has(#slide2:checked) .arrowPrev2,
+.carousel:has(#slide2:checked) .arrowNext2 { display: flex; }
+```
+
+| Diapositiva actual | Fletxa ‹ visible (porta a) | Fletxa › visible (porta a) |
+|---|---|---|
+| 1 | cap | `arrowNext1` (2) |
+| 2 | `arrowPrev2` (1) | `arrowNext2` (3) |
+| 3 | `arrowPrev3` (2) | `arrowNext3` (4) |
+| 4 | `arrowPrev4` (3) | cap |
 
 ### 3. El CSS reacciona al radio marcat
 
 ```css
-/* Punt actiu: una sola regla per a tots els punts */
-.dot:has(:checked) {
-  background: white;
-}
-
 /* Desplaçament de les diapositives segons el radio marcat */
 .carousel:has(#slide1:checked) .slides { transform: translateX(0%); }
 .carousel:has(#slide2:checked) .slides { transform: translateX(-100%); }
@@ -203,6 +224,31 @@ Exemple-04: Obrir amb "Show preview" la pàgina "02-Web/14-InteractivitatCSS/exe
 
 - `.carousel:has(#slide2:checked)` vol dir: *"el carrusel, si conté el radio #slide2 marcat"*.
 - Aleshores es desplaça el contenidor `.slides` i, amb una `transition`, les diapositives es mouen.
+
+### 4. Novetat: `:has(:checked)` sense id
+
+Per pintar el punt actiu, amb el que hem vist fins ara hauríem d'escriure:
+
+```css
+.dot:has(#slide1:checked),
+.dot:has(#slide2:checked),
+.dot:has(#slide3:checked),
+.dot:has(#slide4:checked) {
+  background: white;
+}
+```
+
+Però com que cada radio és **dins** del seu punt, no cal dir quin és. N'hi ha prou amb:
+
+```css
+.dot:has(:checked) {
+  background: white;
+}
+```
+
+Es llegeix: *"el punt que conté un input marcat"*. Només un dels punts conté el radio marcat, així que **una sola regla** serveix per als 4 punts.
+
+⚠️ Aquesta abreviatura només funciona quan l'input és **dins** de l'element. Les diapositives i les fletxes no contenen els radio, per això continuen necessitant `.carousel:has(#slideX:checked)`.
 
 ### Flux complet
 ```text
@@ -244,7 +290,7 @@ Exemple-05: Obrir amb "Show preview" la pàgina "02-Web/14-InteractivitatCSS/exe
   border-bottom-color: #667eea;
 }
 ```
-- *"La pestanya que conté el radio marcat"*. Una sola regla per a totes les pestanyes.
+- Mateixa abreviatura que els punts del carrusel: *"la pestanya que conté un radio marcat"*. Una sola regla per a les 4 pestanyes.
 
 ### 3. Es mostra el contingut de la pestanya activa
 ```css

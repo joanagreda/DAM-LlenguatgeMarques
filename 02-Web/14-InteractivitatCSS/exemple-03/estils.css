@@ -109,12 +109,14 @@ body {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
 }
 
-/* ─── GIR: el .cardwrap que conté un checkbox marcat ─── */
-.cardwrap:has(.flip:checked) .card {
+/* ─── GIR: el .cardwrap que conté el checkbox #targeta1 o #targeta2 marcat ─── */
+.cardwrap:has(#targeta1:checked) .card,
+.cardwrap:has(#targeta2:checked) .card {
   transform: rotateY(180deg);
 }
 
 /* Mantenir l'efecte hover quan està girada */
-.cardwrap:has(.flip:checked):hover .card {
+.cardwrap:has(#targeta1:checked):hover .card,
+.cardwrap:has(#targeta2:checked):hover .card {
   transform: rotateY(180deg) scale(1.03) rotateZ(-1deg);
 }
